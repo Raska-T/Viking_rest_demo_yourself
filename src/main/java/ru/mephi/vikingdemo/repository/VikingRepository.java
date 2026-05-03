@@ -97,4 +97,20 @@ public class VikingRepository {
     public void deleteAll() {
         jdbcTemplate.update("delete from vikings");
     }
+
+    public void update(int id, VikingEntity viking) {
+        String sql = """
+            update vikings
+            set name = ?, age = ?, height_cm = ?, hair_color = ?, beard_style = ?, description = ?
+            where id = ?
+            """;
+        jdbcTemplate.update(sql,
+                viking.name(),
+                viking.age(),
+                viking.heightCm(),
+                viking.hairColor().name(),
+                viking.beardStyle().name(),
+                viking.description(),
+                id);
+    }
 }
