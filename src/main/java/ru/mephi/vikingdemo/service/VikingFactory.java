@@ -29,6 +29,10 @@ public class VikingFactory {
         );
     }
 
+    public Viking createCustomViking(Viking viking){
+        return viking;
+    }
+
     private List<EquipmentItem> createRandomEquipment() {
         return List.of(
                 EquipmentFactory.createItem(),

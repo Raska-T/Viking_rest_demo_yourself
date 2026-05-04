@@ -4,10 +4,11 @@
  */
 package ru.mephi.vikingdemo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.mephi.vikingdemo.gui.VikingDesktopFrame;
 import ru.mephi.vikingdemo.model.Viking;
-import javax.swing.*;
+import ru.mephi.vikingdemo.service.VikingService;
 
 /**
  *
@@ -15,27 +16,32 @@ import javax.swing.*;
  */
 @Component
 public class VikingListener {
+    private VikingService service;
     private VikingDesktopFrame gui;
 
-    public void setGui(VikingDesktopFrame gui) {
+    @Autowired
+    public VikingListener(VikingService service) {
+        this.service = service;
+    }
+
+    public void setGui(VikingDesktopFrame gui){
         this.gui = gui;
     }
 
-    public void addViking (Viking viking) {
-        if (gui != null) {
-            SwingUtilities.invokeLater(() -> gui.addNewViking(viking));
-        }
+    void testAdd() {
+        gui.addNewViking(service.createRandomViking());
     }
 
-    public void deleteViking (int id) {
-        if (gui != null) {
-            SwingUtilities.invokeLater(() -> gui.removeViking(id));
-        }
+    void addCustom(Viking viking){
+        gui.addNewViking(service.createCustomViking(viking));
     }
 
-    public void updateViking(Viking viking) {
-        if (gui != null) {
-            SwingUtilities.invokeLater(() -> gui.updateViking(viking));
-        }
+    void deleteVikingById(Integer vikingId){
+        service.deleteById(vikingId);
+        gui.onDeleteViking(vikingId);
+    }
+
+    void updateViking(Viking viking){
+        gui.onUpdateViking(viking, service.updateViking(viking));
     }
 }

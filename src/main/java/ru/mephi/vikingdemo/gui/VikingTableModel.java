@@ -6,7 +6,6 @@ import ru.mephi.vikingdemo.model.Viking;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class VikingTableModel extends AbstractTableModel {
@@ -14,10 +13,38 @@ public class VikingTableModel extends AbstractTableModel {
     private final String[] columns = {"Name", "Age", "Height (cm)", "Hair color", "Beard style", "Equipment"};
     private final List<Viking> data = new ArrayList<>();
 
+
+    public void addVikings(List<Viking> vikings) {
+        for (Viking viking : vikings) {
+            addViking(viking);
+        }
+    }
+
+
     public void addViking(Viking viking) {
         int row = data.size();
         data.add(viking);
         fireTableRowsInserted(row, row);
+    }
+
+    public void deleteViking(Integer vikingId) {
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).id().equals(vikingId)) {
+                data.remove(i);
+                fireTableRowsDeleted(i, i);
+                return;
+            }
+        }
+    }
+
+    public void updateViking(Viking updatedViking) {
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).id().equals(updatedViking.id())) {
+                data.set(i, updatedViking);
+                fireTableRowsUpdated(i, i);
+                return;
+            }
+        }
     }
 
     @Override
@@ -53,25 +80,5 @@ public class VikingTableModel extends AbstractTableModel {
         return equipment.stream()
                 .map(item -> item.name() + " [" + item.quality() + "]")
                 .collect(Collectors.joining(", "));
-    }
-
-    public void removeViking (Integer id) {
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).id().equals(id)) {
-                data.remove(i);
-                fireTableRowsDeleted(i, i);
-                return;
-            }
-        }
-    }
-
-    public void updateViking(Viking updated) {
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).id().equals(updated.id())) {
-                data.set(i, updated);
-                fireTableRowsUpdated(i, i);
-                return;
-            }
-        }
     }
 }

@@ -13,7 +13,7 @@ public class VikingMapper {
 
     public VikingEntity toVikingEntity(Viking viking) {
         return new VikingEntity(
-                null,
+                viking.id(),
                 viking.name(),
                 viking.age(),
                 viking.heightCm(),

@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
+import ru.mephi.vikingdemo.model.Viking;
 
 @Repository
 public class VikingRepository {
@@ -98,19 +99,21 @@ public class VikingRepository {
         jdbcTemplate.update("delete from vikings");
     }
 
-    public void update(int id, VikingEntity viking) {
-        String sql = """
-            update vikings
-            set name = ?, age = ?, height_cm = ?, hair_color = ?, beard_style = ?, description = ?
-            where id = ?
-            """;
-        jdbcTemplate.update(sql,
+    public boolean updateById(Viking viking){
+        String sql = "UPDATE vikings SET name = ?, age = ?, height_cm = ?, hair_color = ?, beard_style = ? WHERE id = ?";
+
+        // jdbcTemplate.update returns the number of rows affected
+        int rowsAffected = jdbcTemplate.update(
+                sql,
                 viking.name(),
                 viking.age(),
                 viking.heightCm(),
                 viking.hairColor().name(),
                 viking.beardStyle().name(),
-                viking.description(),
-                id);
+                viking.id()
+        );
+
+        return rowsAffected > 0;
+
     }
 }
