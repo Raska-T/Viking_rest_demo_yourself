@@ -13,14 +13,6 @@ public class VikingTableModel extends AbstractTableModel {
     private final String[] columns = {"Name", "Age", "Height (cm)", "Hair color", "Beard style", "Equipment"};
     private final List<Viking> data = new ArrayList<>();
 
-
-    public void addVikings(List<Viking> vikings) {
-        for (Viking viking : vikings) {
-            addViking(viking);
-        }
-    }
-
-
     public void addViking(Viking viking) {
         int row = data.size();
         data.add(viking);

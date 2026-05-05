@@ -9,7 +9,6 @@ import ru.mephi.vikingdemo.repository.VikingStorage;
 
 @Service
 public class VikingService {
-    // каждый раз при изменении создаётся новая копия списка
 
     private final VikingFactory vikingFactory;
     private final VikingStorage vikingStorage;
@@ -36,12 +35,13 @@ public class VikingService {
         vikingStorage.deleteById(id);
     }
 
+    public boolean updateViking(Viking viking){
+        return vikingStorage.updateViking(viking);
+    }
+
     public Viking createCustomViking(Viking viking){
         Viking vikingCreated = vikingFactory.createCustomViking(viking);
         return vikingStorage.save(vikingCreated);
 
-    }
-    public boolean updateViking(Viking viking){
-        return vikingStorage.updateViking(viking);
     }
 }
