@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.mephi.vikingdemo.model.Viking;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.mephi.vikingdemo.repository.VikingStorage;
 
@@ -35,13 +36,12 @@ public class VikingService {
         vikingStorage.deleteById(id);
     }
 
-    public boolean updateViking(Viking viking){
-        return vikingStorage.updateViking(viking);
-    }
-
     public Viking createCustomViking(Viking viking){
         Viking vikingCreated = vikingFactory.createCustomViking(viking);
         return vikingStorage.save(vikingCreated);
 
+    }
+    public boolean updateViking(Viking viking){
+        return vikingStorage.updateViking(viking);
     }
 }

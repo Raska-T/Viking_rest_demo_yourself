@@ -21,6 +21,7 @@
         <maven.compiler.release>24</maven.compiler.release>
         <springdoc.version>3.0.2</springdoc.version>
         <datafaker.version>2.5.4</datafaker.version>
+        <start-class>ru.mephi.vikingdemo.VikingDemoApplication</start-class>
     </properties>
 
     <dependencies>
@@ -46,7 +47,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- Spring JDBC -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -59,7 +60,7 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-h2console</artifactId>

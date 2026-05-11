@@ -1,4 +1,3 @@
-
 package ru.mephi.vikingdemo.service;
 
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.Locale;
 @Component
 public class VikingFactory {
 
-    private final Faker faker = new Faker(Locale.of("nor"));
+    private final Faker faker = new Faker(new Locale("no"));
     private final Random random = new Random();
 
     public Viking createRandomViking() {
