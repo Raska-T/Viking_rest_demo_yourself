@@ -1,50 +1,19 @@
 package ru.mephi.vikingdemo.gui;
 
-import ru.mephi.vikingdemo.model.EquipmentItem;
 import ru.mephi.vikingdemo.model.Viking;
-
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class VikingTableModel extends AbstractTableModel {
-
-    private final String[] columns = {"Name", "Age", "Height (cm)", "Hair color", "Beard style", "Equipment"};
-    private final List<Viking> data = new ArrayList<>();
-
-
-    public void addVikings(List<Viking> vikings) {
-        for (Viking viking : vikings) {
-            addViking(viking);
-        }
+    private final List<Viking> data;
+    private final String[] columnNames = {"ID", "Имя", "Возраст", "Рост (см)", "Цвет волос", "Стиль бороды"};
+    public VikingTableModel() {
+        this.data = new ArrayList<>();
     }
 
-
-    public void addViking(Viking viking) {
-        int row = data.size();
-        data.add(viking);
-        fireTableRowsInserted(row, row);
-    }
-
-    public void deleteViking(Integer vikingId) {
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).id().equals(vikingId)) {
-                data.remove(i);
-                fireTableRowsDeleted(i, i);
-                return;
-            }
-        }
-    }
-
-    public void updateViking(Viking updatedViking) {
-        for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).id().equals(updatedViking.id())) {
-                data.set(i, updatedViking);
-                fireTableRowsUpdated(i, i);
-                return;
-            }
-        }
+    public VikingTableModel(List<Viking> initialData) {
+        this.data = new ArrayList<>(initialData);
     }
 
     @Override
@@ -54,31 +23,57 @@ public class VikingTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return columns.length;
+        return columnNames.length;
     }
 
     @Override
     public String getColumnName(int column) {
-        return columns[column];
+        return columnNames[column];
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Viking viking = data.get(rowIndex);
         return switch (columnIndex) {
-            case 0 -> viking.name();
-            case 1 -> viking.age();
-            case 2 -> viking.heightCm();
-            case 3 -> viking.hairColor();
-            case 4 -> viking.beardStyle();
-            case 5 -> formatEquipment(viking.equipment());
-            default -> "";
+            case 0 -> viking.id();
+            case 1 -> viking.name();
+            case 2 -> viking.age();
+            case 3 -> viking.heightCm();
+            case 4 -> viking.hairColor();
+            case 5 -> viking.beardStyle();
+            default -> null;
         };
     }
 
-    private String formatEquipment(List<EquipmentItem> equipment) {
-        return equipment.stream()
-                .map(item -> item.name() + " [" + item.quality() + "]")
-                .collect(Collectors.joining(", "));
+    public void addViking(Viking viking) {
+        data.add(viking);
+        fireTableRowsInserted(data.size() - 1, data.size() - 1);
+    }
+
+    public void addVikings(List<Viking> vikings) {
+        if (vikings == null || vikings.isEmpty()) return;
+        int startIndex = data.size();
+        data.addAll(vikings);
+        fireTableRowsInserted(startIndex, data.size() - 1);
+    }
+
+    public void deleteViking(Integer vikingId) {
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).id() != null && data.get(i).id().equals(vikingId)) {
+                data.remove(i);
+                fireTableRowsDeleted(i, i);
+                return;
+            }
+        }
+    }
+
+    public void updateViking(Viking updatedViking) {
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).id() != null && data.get(i).id().equals(updatedViking.id())) {
+                data.set(i, updatedViking);
+                fireTableRowsUpdated(i, i);
+                return;
+            }
+        }
     }
 }

@@ -1,30 +1,22 @@
 package ru.mephi.vikingdemo.service;
 
-import org.springframework.stereotype.Service;
 import ru.mephi.vikingdemo.model.Viking;
-
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.mephi.vikingdemo.repository.VikingStorage;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class VikingService {
-
-    private final VikingFactory vikingFactory;
     private final VikingStorage vikingStorage;
+    private final VikingFactory vikingFactory;
 
-
-    @Autowired
-    public VikingService(
-            VikingFactory vikingFactory,
-            VikingStorage vikingStorage
-    ) {
-        this.vikingFactory = vikingFactory;
+    public VikingService(VikingStorage vikingStorage, VikingFactory vikingFactory) {
         this.vikingStorage = vikingStorage;
+        this.vikingFactory = vikingFactory;
     }
 
-    public List<Viking> findAll() {
+    public List<Viking> getAllVikings() {
         return vikingStorage.findAll();
     }
 
@@ -32,16 +24,22 @@ public class VikingService {
         Viking viking = vikingFactory.createRandomViking();
         return vikingStorage.save(viking);
     }
+
+    public Viking createCustomViking(Viking viking) {
+        return vikingStorage.save(viking);
+    }
+
     public void deleteById(int id) {
         vikingStorage.deleteById(id);
     }
 
-    public Viking createCustomViking(Viking viking){
-        Viking vikingCreated = vikingFactory.createCustomViking(viking);
-        return vikingStorage.save(vikingCreated);
-
-    }
-    public boolean updateViking(Viking viking){
+    public boolean updateViking(Viking viking) {
         return vikingStorage.updateViking(viking);
+    }
+
+    public void generateMassiveVikings(int count) {
+        IntStream.range(0, count)
+                .mapToObj(i -> vikingFactory.createRandomViking())
+                .forEach(vikingStorage::save);
     }
 }
