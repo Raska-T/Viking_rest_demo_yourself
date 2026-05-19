@@ -45,7 +45,7 @@ public class VikingDesktopFrame extends JFrame {
 
         Runnable[] actions = {
                 () -> { service.generateMassiveVikings(20); tableModel.addVikings(service.getAllVikings()); analyticsOutputArea.setText("Создано и добавлено 20 случайных викингов!"); },
-                () -> { analyticsOutputArea.setText("--- ВИКИНГИ С ЛЕГЕНДАРНЫМ СНАРЯЖЕНИЕМ ---\n"); analyticsService.getLegendaryVikings().forEach(v -> analyticsOutputArea.append("- " + v.name() + " (ID: " + v.id() + ")\n")); },
+                () -> { analyticsOutputArea.setText("викинги с легендарным снаряжением"); analyticsService.getLegendaryVikings().forEach(v -> analyticsOutputArea.append("- " + v.name() + " (ID: " + v.id() + ")\n")); },
                 () -> analyticsOutputArea.setText("Количество викингов от 18 до 30 лет: " + analyticsService.countByAgeCondition("range", 18, 30)),
                 () -> analyticsOutputArea.setText("Количество викингов вне диапазона 18-30 лет: " + analyticsService.countByAgeCondition("out_of_range", 18, 30)),
                 () -> analyticsOutputArea.setText("Количество викингов старше 18 лет: " + analyticsService.countByAgeCondition("greater", 18, 0)),
