@@ -33,11 +33,14 @@ public class VikingAnalyticsService {
                 .count();
     }
 
-    public long countWithAxes(int axeCountTarget) {
+    public long countWithAxes() {
         return vikingStorage.findAll().stream()
-                .filter(v -> v.equipment().stream()
+                .filter(v -> {
+                    int count = (int) v.equipment().stream()
                         .filter(item -> item.name().toLowerCase().contains("axe"))
-                        .count() == axeCountTarget)
+                        .count();
+                    return count == 1 || count == 2;
+                })
                 .count();
     }
 

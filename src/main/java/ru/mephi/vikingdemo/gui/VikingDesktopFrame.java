@@ -37,8 +37,7 @@ public class VikingDesktopFrame extends JFrame {
         String[] titles = {
                 "Создать 20 викингов", "Легендарное снаряжение", "Возраст (18-30)",
                 "Возраст (Вне 18-30)", "Возраст (> 18)", "Возраст (< 30)",
-                "Рыжие с длинной бородой", "> 180 см", "Ровно 1 топор",
-                "Ровно 2 топора", "Тест массива ID"
+                "Рыжие с длинной бородой", "> 180 см", "Ровно 1 или 2 топора", "Тест массива ID"
         };
 
         Runnable[] actions = {
@@ -50,9 +49,7 @@ public class VikingDesktopFrame extends JFrame {
                 () -> analyticsOutputArea.setText("Количество викингов младше 30 лет: " + analyticsService.countByAgeCondition("less", 30, 0)),
                 () -> { analyticsOutputArea.setText("--- РЫЖИЕ С ДЛИННОЙ БОРОДОЙ (СОРТИРОВКА ПО ВОЗРАСТУ) ---\n"); analyticsService.getSortedRedBeardVikings().forEach(v -> analyticsOutputArea.append("- " + v.name() + " | Возраст: " + v.age() + " | Борода: " + v.beardStyle() + "\n")); },
                 () -> analyticsService.getRandomTallViking().ifPresentOrElse(v -> analyticsOutputArea.setText("Случайный викинг выше 180 см:\n" + v.name() + " (" + v.heightCm() + " см)"), () -> analyticsOutputArea.setText("В базе нет никого выше 180 см.")),
-                () -> analyticsOutputArea.setText("Количество  с ровно 1 топором: " + analyticsService.countWithAxes(1)),
-                () -> analyticsOutputArea.setText("Количество  с ровно 2 топорами: " + analyticsService.countWithAxes(2)),
-                () -> { Integer[] testIds = {14, 3, 8, 22}; analyticsOutputArea.setText("Входной массив Integer ID: [14, 3, 8, 22]\n"); analyticsService.getMaxId(testIds).ifPresent(max -> analyticsOutputArea.append("Последняя запись (max ID): " + max + "\n")); analyticsOutputArea.append("Все четные ID: " + analyticsService.getEvenIds(testIds)); }
+                () -> analyticsOutputArea.setText("Количество  с ровно 1 или 2 топорами: " + analyticsService.countWithAxes()),
         };
 
         for (int i = 0; i < titles.length; i++) {
