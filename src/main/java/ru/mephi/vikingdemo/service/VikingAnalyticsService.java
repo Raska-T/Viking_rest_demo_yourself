@@ -15,7 +15,6 @@ public class VikingAnalyticsService {
         this.vikingStorage = vikingStorage;
     }
 
-    // 1.1 Возрастные условия
     public long countByAgeCondition(String condition, int age1, int age2) {
         List<Viking> list = vikingStorage.findAll();
         return switch (condition.toLowerCase()) {
