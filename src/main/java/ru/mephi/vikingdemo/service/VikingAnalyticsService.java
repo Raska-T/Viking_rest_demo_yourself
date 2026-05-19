@@ -1,5 +1,6 @@
 package ru.mephi.vikingdemo.service;
 
+import ru.mephi.vikingdemo.model.BeardStyle;
 import ru.mephi.vikingdemo.model.Viking;
 import ru.mephi.vikingdemo.repository.VikingStorage;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,9 @@ public class VikingAnalyticsService {
     public List<Viking> getSortedRedBeardVikings() {
         return vikingStorage.findAll().stream()
                 .filter(v -> Objects.toString(v.hairColor()).equalsIgnoreCase("RED"))
-                .sorted(Comparator.comparingInt(Viking::age)).toList();
+                .filter(v -> v.beardStyle() != BeardStyle.CLEAN_SHAVEN)
+                .sorted(Comparator.comparingInt(Viking::age))
+                .toList();
     }
 
     public Optional<Integer> getMaxId(Integer[] ids) { return Arrays.stream(ids).max(Integer::compareTo); }
