@@ -61,7 +61,7 @@ public class VikingAnalyticsService {
     public List<Viking> getSortedRedBeardVikings() {
         return vikingStorage.findAll().stream()
                 .filter(v -> v.hairColor() == HairColor.Red)
-                .filter(v -> v.beardStyle() == BeardStyle.LONG)  // только длинная борода
+                .filter(v -> v.beardStyle() != BeardStyle.CLEAN_SHAVEN)
                 .sorted(Comparator.comparingInt(Viking::age))
                 .toList();
     }
