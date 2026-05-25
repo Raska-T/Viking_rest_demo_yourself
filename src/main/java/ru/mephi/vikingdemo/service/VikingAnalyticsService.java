@@ -73,7 +73,9 @@ public class VikingAnalyticsService {
         return Arrays.stream(ids).max(Integer::compareTo);
     }
 
-    public List<Integer> getEvenIds(Integer[] ids) {
-        return Arrays.stream(ids).filter(id -> id % 2 == 0).toList();
+    public Integer[] getEvenIds(Integer[] ids) {
+        return Arrays.stream(ids)
+                .filter(id -> id % 2 == 0)
+                .toArray(Integer[]::new);
     }
 }

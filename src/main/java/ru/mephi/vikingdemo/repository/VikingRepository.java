@@ -102,7 +102,7 @@ public class VikingRepository {
     public boolean updateById(Viking viking){
         String sql = "UPDATE vikings SET name = ?, age = ?, height_cm = ?, hair_color = ?, beard_style = ? WHERE id = ?";
 
-        // jdbcTemplate.update returns the number of rows affected
+
         int rowsAffected = jdbcTemplate.update(
                 sql,
                 viking.name(),
